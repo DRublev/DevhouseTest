@@ -6,10 +6,12 @@ const ShopScheme = new ShopScheme({
     name: String,
     owner: mongoose.Schema.Types.ObjectId,
     schedule: [{
-        day: String,
+        dayName: String,
+        isDayOff: Boolean,
         workTime: { start: int, end: end },
         breakTime: [{ start: int, end: int }],
     }],
+    isOpen: false,
     adress: String,
 });
 
