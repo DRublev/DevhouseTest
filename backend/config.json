@@ -1,3 +1,4 @@
 {
-    "mongoConnect": "mongodb://localhost/devhouse"
+    "mongoConnect": "mongodb://localhost/devhouse",
+    "secret": "7fJxtyFF"
 }
