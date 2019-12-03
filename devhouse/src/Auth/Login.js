@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Parent from '../Parent.js';
-import { isImport } from '@babel/types';
 import Users from '../helpers/Api/Users.js';
 
 
@@ -14,8 +13,12 @@ class Login extends Parent {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
         };
+    }
+
+    onChangeHandler = (event) => {
+        this.setState({ [event.target.id]: event.target.value });
     }
 
     onLoginHandler = () => {
@@ -25,7 +28,8 @@ class Login extends Parent {
             email: email,
             password: password
         }, (data) => {
-            helpers.login(data.auth)
+            helpers.onLoginHandler(data.token);
+            window.location.href = window.location.origin + '/';
         }, (code, error) => {
             console.warn('failed loigin', code);
         })
@@ -41,15 +45,17 @@ class Login extends Parent {
                         label={"Email"}
                         fullWidth
                         value={email}
-                        onChange={this.onChangeHandler}
-                        name={"email"} n
+                        id="email"
+                        onChange={this.onChangeHandler.bind(this)}
+                        name={"email"}
                         className={"mt-0"}
                         margin={"normal"} />
                     <TextField
                         label={"Password"}
                         fullWidth
                         value={password}
-                        onChange={this.onChangeHandler}
+                        id="password"
+                        onChange={this.onChangeHandler.bind(this)}
                         name={"password"}
                         className={"mt-0"}
                         margin={"normal"} />

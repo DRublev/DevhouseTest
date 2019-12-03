@@ -15,10 +15,14 @@ class Users extends API {
 
             $.ajax({
                 method: 'POST',
-                url: url + 'users/login',
-                data: data,
+                url: url + 'user/login',
+                data: {
+                    email: data.email,
+                    password: data.password,
+                    auth: data.auth
+                },
                 success: (response, jqXHR) => {
-                    successCallback();
+                    successCallback(response);
                     console.log('success login', response);
                 }
             })
