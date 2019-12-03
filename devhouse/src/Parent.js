@@ -12,7 +12,7 @@ class Parent extends Component {
 
     Alert(text) {
         return (
-            <a href='#'>alert</a>
+            <a href='/'>alert</a>
         );
     }
 }

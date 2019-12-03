@@ -6,8 +6,10 @@ const config = {
             useUnifiedTopology: true
         }
     },
-    secret: '7fJxtyFQ',
-
+    token: {
+        secret: '7fJxtyFQ',
+        expiresIn: 86400 //24h
+    },
 }
 
 module.exports = config;

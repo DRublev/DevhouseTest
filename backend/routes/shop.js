@@ -187,7 +187,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-    let body = req.query;
+    let body = req.body;
 
     let newShop = new Shop({
         name: body.name || 'Default name',
@@ -207,7 +207,7 @@ router.post('/add', (req, res) => {
 });
 
 router.post('update', (req, res) => {
-    let body = req.query;
+    let body = req.body;
 
     Shop.updateOne({ _id: body._id }, {
         name: body.name,
@@ -219,7 +219,7 @@ router.post('update', (req, res) => {
 })
 
 router.delete('/delete', (req, res) => {
-    var body = req.query;
+    var body = req.body;
 
     if (!body._id) {
         res.json({ status: 404 });

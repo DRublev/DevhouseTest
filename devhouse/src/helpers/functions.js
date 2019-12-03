@@ -1,5 +1,4 @@
 import Cookies from 'universal-cookie';
-import { isGenericTypeAnnotation } from '@babel/types';
 
 const cookies = new Cookies();
 

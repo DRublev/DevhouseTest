@@ -3,9 +3,6 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 class API {
-    constructor() {
-
-    }
 
     getAuthToken(data) {
         let auth = data.auth || cookies.get('auth');
@@ -13,8 +10,6 @@ class API {
 
         return auth;
     }
-
-
 }
 
 export default API;
