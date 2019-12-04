@@ -45,7 +45,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.get('/me', VerifyToken, (req, res) => {
+router.post('/me', VerifyToken, (req, res) => {
     User.findById(req.userId, { password: 0 }, (err, user) => {
         if (err) {
             return res.status(500).send('There was a problem finding the user');

@@ -28,9 +28,9 @@ class Users extends API {
         this.me = (data, successCallback, errorCallback) => {
             data = data || {};
             let auth = super.getAuthToken(data);
-            console.log(data);
+
             $.ajax({
-                method: 'GET',
+                method: 'POST',
                 url: url + 'user/me',
                 headers: {
                     'Authorization': 'JWT ' + auth,

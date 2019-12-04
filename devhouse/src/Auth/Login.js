@@ -1,6 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { InputGroup, Button, FormControl } from 'react-bootstrap';
 import Parent from '../Parent.js';
 import Users from '../helpers/Api/Users';
 
@@ -29,7 +28,6 @@ class Login extends Parent {
             password: password
         }, (data) => {
             helpers.onLoginHandler(data.token);
-            window.location.href = window.location.origin + '/';
         }, (code, error) => {
             console.warn('failed loigin', code);
         })
@@ -39,36 +37,43 @@ class Login extends Parent {
         var { email, password } = this.state;
 
         return (
-            <div className={"md-10"}>
+            <div className={"col-md-6"}>
                 <form>
-                    <TextField
-                        label={"Email"}
-                        fullWidth
-                        value={email}
-                        id="email"
-                        onChange={this.onChangeHandler.bind(this)}
-                        name={"email"}
-                        className={"mt-0"}
-                        margin={"normal"} />
-                    <TextField
-                        label={"Password"}
-                        fullWidth
-                        value={password}
-                        id="password"
-                        onChange={this.onChangeHandler.bind(this)}
-                        name={"password"}
-                        className={"mt-0"}
-                        margin={"normal"} />
+                    <InputGroup className={'my-2'}>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            type={'text'}
+                            label={"Email"}
+                            value={email}
+                            id="email"
+                            onChange={this.onChangeHandler.bind(this)}
+                            name={"email"}
+                            className={"mt-0"}
+                            margin={"normal"} />
+                    </InputGroup>
+                    <InputGroup className={'my-2'}>
+                        <FormControl
+                            type={'password'}
+                            label={"Password"}
+                            value={password}
+                            id="password"
+                            onChange={this.onChangeHandler.bind(this)}
+                            name={"password"}
+                            className={"mt-0"}
+                            margin={"normal"} />
+                    </InputGroup>
+
 
                     <Button
                         onClick={this.onLoginHandler}
                         className={"mb-3"}
-                        variant="contained"
-                        fullWidth>
-                        Login
+                        variant="primary">
+                        {'Login'}
                     </Button>
                 </form>
-            </div>
+            </div >
         );
     }
 }

@@ -6,6 +6,8 @@ export function onLoginHandler(auth) {
     cookies.set('auth', auth, {
         path: '/'
     });
+
+    window.location.href = window.location.origin + '/';
 }
 
 export function onLogoutHandler(event) {
