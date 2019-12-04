@@ -17,6 +17,7 @@ class App extends Component {
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/'} component={ShopList} />
         <Route path={'/shop/add/:id'} component={ShopAdd} />
+        <Route path={'/shop/add'} component={ShopAdd} />
       </Switch>
     );
   }
