@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Parent from '../Parent.js';
-import Users from '../helpers/Api/Users.js';
+import Users from '../helpers/Api/Users';
 
 
 let helpers = require('../helpers/functions.js');
