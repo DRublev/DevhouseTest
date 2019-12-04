@@ -194,7 +194,7 @@ router.post('/add', (req, res) => {
         name: body.name || 'Default name',
         address: body.address || 'Default address',
         owner: body.owner || '5de679a8cfbaf10348113273',
-        schedule: body.schedule || standartSchedule
+        schedule: standartSchedule
     });
 
     newShop.save().then((data) => {

@@ -11,7 +11,7 @@ const ShopSchema = new Schema({
             enum: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         },
         isDayOff: Boolean,
-        workTime: {
+        workTime: [{
             start: {
                 hours: { type: Number, max: 23, min: 0 },
                 minutes: { type: Number, max: 59, min: 0 }
@@ -20,8 +20,8 @@ const ShopSchema = new Schema({
                 hours: { type: Number, max: 23, min: 0 },
                 minutes: { type: Number, max: 59, min: 0 }
             }
-        },
-        breakTime: {
+        }],
+        breakTime: [{
             start: {
                 hours: { type: Number, max: 23, min: 0 },
                 minutes: { type: Number, max: 59, min: 0 }
@@ -30,7 +30,7 @@ const ShopSchema = new Schema({
                 hours: { type: Number, max: 23, min: 0 },
                 minutes: { type: Number, max: 59, min: 0 }
             }
-        }
+        }]
     }]
 });
 
