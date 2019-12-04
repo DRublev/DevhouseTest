@@ -39,7 +39,7 @@ class Login extends Parent {
         var { email, password } = this.state;
 
         return (
-            <div class={"md-10"}>
+            <div className={"md-10"}>
                 <form>
                     <TextField
                         label={"Email"}

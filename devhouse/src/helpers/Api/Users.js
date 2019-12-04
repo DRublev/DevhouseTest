@@ -4,15 +4,14 @@ var config = require('../../config.js');
 
 class Users extends API {
     constructor(url) {
-        super();
 
+        super();
         if (url[url.length - 1] !== '/') {
             url += '/';
         }
 
         this.login = (data, successCallback, errorCallback) => {
             data = data || {};
-
             $.ajax({
                 method: 'POST',
                 url: url + 'user/login',
@@ -23,10 +22,26 @@ class Users extends API {
                 },
                 success: (response, jqXHR) => {
                     successCallback(response);
-                    console.log('success login', response);
                 }
-            })
-        }
+            });
+        };
+        this.me = (data, successCallback, errorCallback) => {
+            data = data || {};
+            let auth = super.getAuthToken(data);
+            console.log(data);
+            $.ajax({
+                method: 'GET',
+                url: url + 'user/me',
+                headers: {
+                    'Authorization': 'JWT ' + auth,
+                    'x-access-token': auth
+                },
+                data: data,
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        };
     }
 }
 

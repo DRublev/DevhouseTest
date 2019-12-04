@@ -7,13 +7,13 @@ const standartSchedule = new Array(
     {
         day: 'Sun',
         isDayOff: true,
-        workTime: [],
-        breakTime: []
+        workTime: new Array(),
+        breakTime: new Array()
     },
     {
         day: 'Mon',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -22,8 +22,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -32,12 +32,12 @@ const standartSchedule = new Array(
                 hours: 14,
                 minutes: 0
             }
-        }]
+        })
     },
     {
         day: 'Tue',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -46,8 +46,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -56,12 +56,12 @@ const standartSchedule = new Array(
                 hours: 14,
                 minutes: 0
             }
-        }]
+        })
     },
     {
         day: 'Wed',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -70,8 +70,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -81,21 +81,21 @@ const standartSchedule = new Array(
                 minutes: 0
             }
         },
-        {
-            start: {
-                hours: 16,
-                minutes: 0
-            },
-            end: {
-                hours: 16,
-                minutes: 25
-            }
-        }]
+            {
+                start: {
+                    hours: 16,
+                    minutes: 0
+                },
+                end: {
+                    hours: 16,
+                    minutes: 25
+                }
+            })
     },
     {
         day: 'Thu',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -104,8 +104,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -114,12 +114,12 @@ const standartSchedule = new Array(
                 hours: 14,
                 minutes: 0
             }
-        }]
+        })
     },
     {
         day: 'Fri',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -128,8 +128,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -138,12 +138,12 @@ const standartSchedule = new Array(
                 hours: 14,
                 minutes: 0
             }
-        }]
+        })
     },
     {
         day: 'Sat',
         isDayOff: false,
-        workTime: [{
+        workTime: new Array({
             start: {
                 hours: 9,
                 minutes: 0,
@@ -152,8 +152,8 @@ const standartSchedule = new Array(
                 hours: 18,
                 minutes: 0
             }
-        }],
-        breakTime: [{
+        }),
+        breakTime: new Array({
             start: {
                 hours: 13,
                 minutes: 0
@@ -162,14 +162,14 @@ const standartSchedule = new Array(
                 hours: 14,
                 minutes: 0
             }
-        }]
+        })
     }
 );
 
 router.get('/', (req, res) => {
     let body = req.body;
-
-    const shops = Shop.find({}).then(
+    
+    Shop.find({}).then(
         (data) => {
             res.json({
                 status: 200,
@@ -178,6 +178,7 @@ router.get('/', (req, res) => {
                 }
             });
         }, (err) => {
+            console.log(err);
             res.json({
                 status: 904,
                 data: {}
@@ -192,7 +193,7 @@ router.post('/add', (req, res) => {
     let newShop = new Shop({
         name: body.name || 'Default name',
         address: body.address || 'Default address',
-        owner: body.owner || '5de6694e7229e4479880cecb',
+        owner: body.owner || '5de679a8cfbaf10348113273',
         schedule: body.schedule || standartSchedule
     });
 
@@ -206,7 +207,7 @@ router.post('/add', (req, res) => {
     });
 });
 
-router.post('update', (req, res) => {
+router.post('/update', (req, res) => {
     let body = req.body;
 
     Shop.updateOne({ _id: body._id }, {
