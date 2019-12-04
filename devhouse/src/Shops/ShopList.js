@@ -1,6 +1,6 @@
 import React from 'react';
 import Parent from '../Parent.js';
-import { Container } from 'react-bootstrap';
+import { Container, ButtonGroup, Button } from 'react-bootstrap';
 
 import ShopCard from './ShopCard';
 
@@ -21,8 +21,6 @@ class ShopList extends Parent {
         Shops.list({}, (data) => {
             this.setState({
                 shops: data.data.shops
-            }, (code, err) => {
-                console.warn(code);
             });
         });
     }
@@ -38,12 +36,20 @@ class ShopList extends Parent {
         });
     }
 
+    onAddShopHandler = () => {
+        window.location.href = window.location.origin + '/shop/add/';
+    }
+
     render() {
         let { shops, me } = this.state;
 
         return (
             <Container className={'mt-3 col-md-10 d-flex flex-column'}>
-
+                <ButtonGroup className={'col-md-3 ml-0 px-1'}>
+                    <Button onClick={this.onAddShopHandler}>
+                        {'Add shop'}
+                    </Button>
+                </ButtonGroup>
                 {shops.map((shop, index) =>
                     <ShopCard key={shop._id}
                         index={index}

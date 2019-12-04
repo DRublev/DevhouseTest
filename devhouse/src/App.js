@@ -8,6 +8,7 @@ import 'react-bootstrap';
 
 import Login from './Auth/Login.js';
 import ShopList from './Shops/ShopList.js';
+import ShopAdd from './Shops/ShopAdd.js';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
       <Switch>
         <Route exact path={'/login'} component={Login} />
         <Route exact path={'/'} component={ShopList} />
+        <Route path={'/shop/add/:id'} component={ShopAdd} />
       </Switch>
     );
   }

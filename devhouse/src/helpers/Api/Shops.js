@@ -11,23 +11,52 @@ class Shops extends API {
             url += '/';
         }
 
-        this.list = (data, successCallback, errorCallback) => {
+
+        this.add = (data, successCallback, errorCallback) => {
             data = data || {};
             let auth = super.getAuthToken(data);
-            console.log(url);
+
             $.ajax({
-                method: 'GET',
-                url: url + 'shop/',
+                method: 'POST',
+                url: url + 'shop/add',
                 headers: {
-                    'Authorization': 'JWT ' + auth,
                     'x-access-token': auth,
                 },
                 data: data,
                 success: (response, jqXHR) => {
                     successCallback(response);
                 }
-            })
+            });
         }
+
+        this.update = (data, successCallback, errorCallback) => {
+            data = data || {};
+            let auth = super.getAuthToken(data);
+
+            $.ajax({
+                method: 'POST',
+                url: url + 'shop/update',
+                headers: {
+                    'x-access-token': auth,
+                },
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        }
+
+        this.list = (data, successCallback, errorCallback) => {
+            data = data || {};
+            $.ajax({
+                method: 'GET',
+                url: url + 'shop/',
+                data: data,
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        }
+
     }
 }
 
