@@ -9,12 +9,6 @@ class Parent extends Component {
 
         this.auth = cookies.get('auth');
     }
-
-    Alert(text) {
-        return (
-            <a href='/'>alert</a>
-        );
-    }
 }
 
 export default Parent;

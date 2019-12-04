@@ -33,7 +33,6 @@ class Users extends API {
                 method: 'POST',
                 url: url + 'user/me',
                 headers: {
-                    'Authorization': 'JWT ' + auth,
                     'x-access-token': auth
                 },
                 data: data,
