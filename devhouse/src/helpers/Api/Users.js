@@ -12,9 +12,26 @@ class Users extends API {
 
         this.login = (data, successCallback, errorCallback) => {
             data = data || {};
+
             $.ajax({
                 method: 'POST',
                 url: url + 'user/login',
+                data: {
+                    email: data.email,
+                    password: data.password,
+                    auth: data.auth
+                },
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        };
+        this.register = (data, successCallback, errorCallback) => {
+            data = data || {};
+
+            $.ajax({
+                method: 'POST',
+                url: url + 'user/register',
                 data: {
                     email: data.email,
                     password: data.password,

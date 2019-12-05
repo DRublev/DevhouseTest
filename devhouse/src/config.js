@@ -15,12 +15,12 @@ bTimeEnd.setMinutes(0);
 
 module.exports = {
     Backend: 'http://localhost:5100/',
-    defaultShopSchedule: new Array(
+    defaultShopSchedule: [
         {
             day: 'Sun',
             isDayOff: true,
             workTime: {},
-            breakTime: new Array()
+            breakTime: []
         },
         {
             day: 'Mon',
@@ -29,10 +29,10 @@ module.exports = {
                 start: wTimeStart,
                 end: wTimeEnd
             },
-            breakTime: new Array({
+            breakTime: [{
                 start: bTimeStart,
                 end: bTimeEnd
-            })
+            }]
         },
         {
             day: 'Tue',
@@ -41,10 +41,10 @@ module.exports = {
                 start: wTimeStart,
                 end: wTimeEnd
             },
-            breakTime: new Array({
+            breakTime: [{
                 start: bTimeStart,
                 end: bTimeEnd
-            })
+            }]
         },
         {
             day: 'Wed',
@@ -53,11 +53,11 @@ module.exports = {
                 start: wTimeStart,
                 end: wTimeEnd
             },
-            breakTime: new Array(
+            breakTime: [
                 {
                     start: bTimeStart,
                     end: bTimeEnd
-                })
+                }]
         },
         {
             day: 'Thu',
@@ -66,10 +66,10 @@ module.exports = {
                 start: wTimeStart,
                 end: wTimeEnd
             },
-            breakTime: new Array({
+            breakTime: [{
                 start: bTimeStart,
                 end: bTimeEnd
-            })
+            }]
         },
         {
             day: 'Fri',
@@ -78,16 +78,16 @@ module.exports = {
                 start: wTimeStart,
                 end: wTimeEnd
             },
-            breakTime: new Array({
+            breakTime: [{
                 start: bTimeStart,
                 end: bTimeEnd
-            })
+            }]
         },
         {
             day: 'Sat',
             isDayOff: true,
             workTime: {},
-            breakTime: new Array()
+            breakTime: []
         }
-    ),
+    ],
 };
