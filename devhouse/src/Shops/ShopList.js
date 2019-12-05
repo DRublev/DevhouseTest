@@ -7,7 +7,7 @@ import ShopCard from './ShopCard';
 import Shops from '../helpers/Api/Shops.js';
 import Users from '../helpers/Api/Users.js';
 
-import helpers from '../helpers/functions.js';
+let helpers = require('../helpers/functions.js');
 
 class ShopList extends Parent {
     constructor(props) {
