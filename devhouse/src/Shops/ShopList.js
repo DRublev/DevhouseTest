@@ -7,6 +7,8 @@ import ShopCard from './ShopCard';
 import Shops from '../helpers/Api/Shops.js';
 import Users from '../helpers/Api/Users.js';
 
+import helpers from '../helpers/functions.js';
+
 class ShopList extends Parent {
     constructor(props) {
         super(props);
@@ -40,6 +42,10 @@ class ShopList extends Parent {
         window.location.href = window.location.origin + '/shop/add/';
     }
 
+    onLogoutHandler = (event) => {
+        helpers.onLogoutHandler(event);
+    }
+
     render() {
         let { shops, me } = this.state;
 
@@ -48,6 +54,9 @@ class ShopList extends Parent {
                 <ButtonGroup className={'col-md-3 ml-0 px-1'}>
                     <Button onClick={this.onAddShopHandler}>
                         {'Add shop'}
+                    </Button>
+                    <Button onClick={this.onLogoutHandler.bind(this)}>
+                        {'Logout'}
                     </Button>
                 </ButtonGroup>
                 {shops.map((shop, index) =>
