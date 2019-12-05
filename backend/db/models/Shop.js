@@ -12,25 +12,13 @@ const ShopSchema = new Schema({
         },
         isDayOff: Boolean,
         workTime: {
-            start: {
-                hours: { type: Number, max: 23, min: 0 },
-                minutes: { type: Number, max: 59, min: 0 }
-            },
-            end: {
-                hours: { type: Number, max: 23, min: 0 },
-                minutes: { type: Number, max: 59, min: 0 }
-            }
+            start: Date,
+            end: Date
         },
-        breakTime: {
-            start: {
-                hours: { type: Number, max: 23, min: 0 },
-                minutes: { type: Number, max: 59, min: 0 }
-            },
-            end: {
-                hours: { type: Number, max: 23, min: 0 },
-                minutes: { type: Number, max: 59, min: 0 }
-            }
-        }
+        breakTime: [{
+            start: Date,
+            end: Date
+        }]
     }]
 });
 

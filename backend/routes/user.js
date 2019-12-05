@@ -45,7 +45,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.get('/me', VerifyToken, (req, res) => {
+router.post('/me', VerifyToken, (req, res) => {
     User.findById(req.userId, { password: 0 }, (err, user) => {
         if (err) {
             return res.status(500).send('There was a problem finding the user');
@@ -68,21 +68,20 @@ router.post('/login', (req, res) => {
 
     User.findOne({ email: body.email }, (err, user) => {
         if (err) {
-            console.log(err);
             return res.status(500).send('Server error. Sorry T_T');
         }
 
         if (!user) {
+            console.log('no user');
             return res.status(404).send('No user with this email found');
         }
-        console.log(req.body);
+
         let passIsValid = bcrypt.compareSync(body.password, user.password);
         if (!passIsValid) {
             return res.status(401).send({ auth: false, token: null });
         }
 
         let token = jwt.sign({ id: user._id }, config.token.secret, { expiresIn: config.token.expiresIn });
-        console.log('login');
         res.status(200).send({ auth: true, token: token });
     });
 });

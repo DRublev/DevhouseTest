@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -8,12 +8,6 @@ class Parent extends Component {
         super(props);
 
         this.auth = cookies.get('auth');
-    }
-
-    Alert(text) {
-        return (
-            <a href='/'>alert</a>
-        );
     }
 }
 

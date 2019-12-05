@@ -4,8 +4,8 @@ var config = require('../../config.js');
 
 class Users extends API {
     constructor(url) {
-        super();
 
+        super();
         if (url[url.length - 1] !== '/') {
             url += '/';
         }
@@ -23,10 +23,41 @@ class Users extends API {
                 },
                 success: (response, jqXHR) => {
                     successCallback(response);
-                    console.log('success login', response);
                 }
-            })
-        }
+            });
+        };
+        this.register = (data, successCallback, errorCallback) => {
+            data = data || {};
+
+            $.ajax({
+                method: 'POST',
+                url: url + 'user/register',
+                data: {
+                    email: data.email,
+                    password: data.password,
+                    auth: data.auth
+                },
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        };
+        this.me = (data, successCallback, errorCallback) => {
+            data = data || {};
+            let auth = super.getAuthToken(data);
+
+            $.ajax({
+                method: 'POST',
+                url: url + 'user/me',
+                headers: {
+                    'x-access-token': auth
+                },
+                data: data,
+                success: (response, jqXHR) => {
+                    successCallback(response);
+                }
+            });
+        };
     }
 }
 

@@ -3,173 +3,98 @@ const router = express.Router();
 
 const Shop = require('../db/models/Shop.js');
 
+let wTimeStart = new Date();
+wTimeStart.setHours(8);
+wTimeStart.setMinutes(0);
+let wTimeEnd = new Date();
+wTimeEnd.setHours(18);
+wTimeEnd.setMinutes(0);
+
+let bTimeStart = new Date();
+bTimeStart.setHours(13);
+bTimeStart.setMinutes(0);
+let bTimeEnd = new Date();
+bTimeEnd.setHours(14);
+bTimeEnd.setMinutes(0);
+
 const standartSchedule = new Array(
     {
         day: 'Sun',
         isDayOff: true,
-        workTime: [],
-        breakTime: []
+        workTime: {},
+        breakTime: new Array()
     },
     {
         day: 'Mon',
         isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
-        }]
+        workTime: {
+            start: wTimeStart,
+            end: wTimeEnd
+        },
+        breakTime: new Array({
+            start: bTimeStart,
+            end: bTimeEnd
+        })
     },
     {
         day: 'Tue',
         isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
-        }]
+        workTime: {
+            start: wTimeStart,
+            end: wTimeEnd
+        },
+        breakTime: new Array({
+            start: bTimeStart,
+            end: bTimeEnd
+        })
     },
     {
         day: 'Wed',
         isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
+        workTime: {
+            start: wTimeStart,
+            end: wTimeEnd
         },
-        {
-            start: {
-                hours: 16,
-                minutes: 0
-            },
-            end: {
-                hours: 16,
-                minutes: 25
-            }
-        }]
+        breakTime: new Array(
+            {
+                start: bTimeStart,
+                end: bTimeEnd
+            })
     },
     {
         day: 'Thu',
         isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
-        }]
+        workTime: {
+            start: wTimeStart,
+            end: wTimeEnd
+        },
+        breakTime: new Array({
+            start: bTimeStart,
+            end: bTimeEnd
+        })
     },
     {
         day: 'Fri',
         isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
-        }]
+        workTime: {
+            start: wTimeStart,
+            end: wTimeEnd
+        },
+        breakTime: new Array({
+            start: bTimeStart,
+            end: bTimeEnd
+        })
     },
     {
         day: 'Sat',
-        isDayOff: false,
-        workTime: [{
-            start: {
-                hours: 9,
-                minutes: 0,
-            },
-            end: {
-                hours: 18,
-                minutes: 0
-            }
-        }],
-        breakTime: [{
-            start: {
-                hours: 13,
-                minutes: 0
-            },
-            end: {
-                hours: 14,
-                minutes: 0
-            }
-        }]
+        isDayOff: true,
+        workTime: {},
+        breakTime: new Array()
     }
 );
 
 router.get('/', (req, res) => {
-    let body = req.body;
-
-    const shops = Shop.find({}).then(
+    Shop.find(req.query).then(
         (data) => {
             res.json({
                 status: 200,
@@ -178,6 +103,7 @@ router.get('/', (req, res) => {
                 }
             });
         }, (err) => {
+            console.log(err);
             res.json({
                 status: 904,
                 data: {}
@@ -192,8 +118,8 @@ router.post('/add', (req, res) => {
     let newShop = new Shop({
         name: body.name || 'Default name',
         address: body.address || 'Default address',
-        owner: body.owner || '5de6694e7229e4479880cecb',
-        schedule: body.schedule || standartSchedule
+        owner: body.owner || '5de679a8cfbaf10348113273',
+        schedule: standartSchedule
     });
 
     newShop.save().then((data) => {
@@ -206,7 +132,7 @@ router.post('/add', (req, res) => {
     });
 });
 
-router.post('update', (req, res) => {
+router.post('/update', (req, res) => {
     let body = req.body;
 
     Shop.updateOne({ _id: body._id }, {
