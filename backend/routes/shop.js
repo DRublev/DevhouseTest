@@ -134,7 +134,7 @@ router.post('/add', (req, res) => {
 
 router.post('/update', (req, res) => {
     let body = req.body;
-
+    console.log(req);
     Shop.updateOne({ _id: body._id }, {
         name: body.name,
         address: body.address,
