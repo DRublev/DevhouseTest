@@ -39,6 +39,7 @@ class Shops extends API {
                 headers: {
                     'x-access-token': auth,
                 },
+                data: data,
                 success: (response, jqXHR) => {
                     successCallback(response);
                 }

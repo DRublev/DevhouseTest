@@ -34,7 +34,6 @@ class ShopList extends Parent {
             this.setState({
                 me: data
             });
-
         });
     }
 
@@ -46,6 +45,10 @@ class ShopList extends Parent {
         helpers.onLogoutHandler(event);
     }
 
+    onLoginHandler = () => {
+        window.location.href = window.location.origin + '/login';
+    }
+
     render() {
         let { shops, me } = this.state;
 
@@ -55,8 +58,8 @@ class ShopList extends Parent {
                     <Button onClick={this.onAddShopHandler}>
                         {'Add shop'}
                     </Button>
-                    <Button onClick={this.onLogoutHandler.bind(this)}>
-                        {'Logout'}
+                    <Button onClick={me._id ? this.onLogoutHandler.bind(this) : this.onLoginHandler.bind(this)}>
+                        {me._id ? 'Logout' : 'Login'}
                     </Button>
                 </ButtonGroup>
                 {shops.map((shop, index) =>
