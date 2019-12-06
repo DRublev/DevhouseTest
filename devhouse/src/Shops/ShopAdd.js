@@ -28,6 +28,12 @@ class ShopAdd extends Parent {
 
     if (!id) return;
 
+    Users.me({}, (data) => {
+      this.setState({
+        me: data
+      });
+    });
+
     Shops.list({ _id: id }, (res) => {
       let shop = res.data.shops ? res.data.shops[0] : {};
 
@@ -234,24 +240,22 @@ class ShopAdd extends Parent {
   }
 
   onSubmitClickHandler = () => {
-    let { shop } = this.state;
+    let { shop, me } = this.state;
     let newShop = {
-      owner: '',
+      _id: shop._id,
+      owner: me._id || '',
       name: shop.name || '',
       address: shop.address || '',
       schedule: shop.schedule || config.defaultShopSchedule
     }
 
-    Users.me({}, (data) => {
-      newShop.owner = data._id || ''
-    });
-
     if (this.props.match.params.id) {
-      console.log('upssd');
       Shops.update(newShop, (res) => {
-        console.log('upd');
         window.location.href = window.location.origin + '/';
+      }, (err) => {
+        alert('err');
       });
+      window.location.href = window.location.origin + '/';
     } else {
       Shops.add(newShop, (res) => {
         window.location.href = window.location.origin + '/';
