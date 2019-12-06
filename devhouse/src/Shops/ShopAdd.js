@@ -235,7 +235,6 @@ class ShopAdd extends Parent {
 
   onSubmitClickHandler = () => {
     let { shop } = this.state;
-    console.log('add');
     let newShop = {
       owner: '',
       name: shop.name || '',
@@ -248,15 +247,16 @@ class ShopAdd extends Parent {
     });
 
     if (this.props.match.params.id) {
+      console.log('upssd');
       Shops.update(newShop, (res) => {
+        console.log('upd');
         window.location.href = window.location.origin + '/';
       });
     } else {
       Shops.add(newShop, (res) => {
-        console.log('asdasd');
         window.location.href = window.location.origin + '/';
       }, (err) => {
-          alert('err');
+        alert('err');
       });
     }
   }
