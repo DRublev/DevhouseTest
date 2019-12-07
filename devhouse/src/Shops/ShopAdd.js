@@ -20,6 +20,7 @@ class ShopAdd extends Parent {
       },
       choosenDay: 0,
       breakTimePickers: [],
+      isVisible: false
     };
   }
 
@@ -45,66 +46,42 @@ class ShopAdd extends Parent {
     }, (err) => {
       return;
     });
-  }
 
-  onChangeHandler = (event) => {
-    let { name, value } = event.target;
-    this.setState((prevState) => ({
-      shop: {
-        ...prevState.shop,
-        [name]: value
-      }
-    }));
-  }
-
-  addBreaksForDay = () => {
-    const { shop, choosenDay } = this.state;
-    let curDay = shop.schedule[choosenDay];
-    let nodes = [];
-
-    this.setState({
-      breakTimePickers: []
-    });
-
-    curDay.breakTime.forEach((bt, index) => {
-      let btp = this.createBreakTimePicker(index);
-      nodes.push(btp);
-    });
-
-    this.setState({
-      breakTimePickers: nodes
-    });
+    this.onChangeDayWeek = this.onChangeDayWeek.bind(this);
   }
 
   onChangeDayWeek = (event) => {
     let { value } = event.target;
-    const { shop } = this.state;
+
     this.setState({
       choosenDay: value,
-      breakTimePickers: []
+      breakTimePickers: [],
+      isVisible: false
+    }, () => {
+      this.addBreaksForDay();
+      this.fillWorkTime();
+      this.refs.isDayOff.checked = false;
     });
-
-    this.addBreaksForDay();
-
-    this.refs.isDayOff.checked = shop.schedule[value].isDayOff;
   }
 
   onDayOffChangeHandler = (event) => {
-    let { value } = event.target;
-    const { shop, choosenDay } = this.state;
-    let prevSchedule = shop.schedule;
+    let value = (event.target.value === 'on' && this.state.isVisible !== true);
+    const { choosenDay } = this.state;
 
-    this.setState({
+
+    this.setState((prevState) => ({
       shop: {
-        ...shop,
+        ...prevState.shop,
         schedule: {
-          ...prevSchedule,
+          ...prevState.shop.schedule,
           [choosenDay]: {
+            ...prevState.shop.schedule[choosenDay],
             isDayOff: value
           }
         }
-      }
-    });
+      },
+      isVisible: value,
+    }));
   }
 
   onWorkTimeChangeHandler = (event) => {
@@ -112,7 +89,7 @@ class ShopAdd extends Parent {
     const { shop, choosenDay } = this.state;
     let prevSchedule = shop.schedule;
 
-    const oldTime = shop.schedule[choosenDay].workTime;
+    const oldTime = shop.schedule[choosenDay].workTime || { start: null, end: null };
 
     const vSplit = value.split(':');
     const hours = vSplit[0];
@@ -141,7 +118,7 @@ class ShopAdd extends Parent {
     const { shop, choosenDay } = this.state;
     let prevSchedule = shop.schedule;
 
-    const breaks = shop.schedule[choosenDay].breakTime;
+    const breaks = shop.schedule[choosenDay].breakTime || [];
     const breakIndex = name[name.length - 2];
 
     if (!breaks[breakIndex]) {
@@ -179,15 +156,12 @@ class ShopAdd extends Parent {
         }
       }
     });
-
-    console.log(this.state.shop.schedule);
   }
 
   onAddBreakTimeHandler = () => {
     const { choosenDay, shop } = this.state;
     let newSchedule = shop.schedule;
     let curDay = newSchedule[choosenDay];
-
 
     curDay.breakTime.push({
       start: new Date(2019, 1, 1, 0, 0, 0),
@@ -204,6 +178,46 @@ class ShopAdd extends Parent {
     });
 
     this.addBreaksForDay();
+  }
+
+  onChangeHandler = (event) => {
+    let { name, value } = event.target;
+
+    this.setState((prevState) => ({
+      shop: {
+        ...prevState.shop,
+        [name]: value
+      }
+    }));
+  }
+
+  fillWorkTime = () => {
+    const { choosenDay, shop } = this.state;
+    const cDay = shop.schedule[choosenDay];
+    let workStart = '00:00', workEnd = '00:00';
+
+    if (cDay.workTime) {
+      workStart = this.formatDate(new Date(cDay.workTime.start));
+      workEnd = this.formatDate(new Date(cDay.workTime.end));
+    }
+
+    this.refs.workStart.value = workStart;
+    this.refs.workEnd.value = workEnd;
+  }
+
+  addBreaksForDay = () => {
+    const { shop, choosenDay } = this.state;
+    let curDay = shop.schedule[choosenDay];
+    let nodes = [];
+
+    curDay.breakTime.forEach((bt, index) => {
+      let btp = this.createBreakTimePicker(index);
+      nodes.push(btp);
+    });
+
+    this.setState({
+      breakTimePickers: nodes
+    });
   }
 
   createBreakTimePicker = (index) => {
@@ -267,13 +281,6 @@ class ShopAdd extends Parent {
 
   render() {
     const { shop, choosenDay, breakTimePickers } = this.state;
-    let cDay = shop.schedule[choosenDay];
-
-    let workStart, workEnd;
-    if (cDay.workTime) {
-      workStart = this.formatDate(new Date(cDay.workTime.start)) || '';
-      workEnd = this.formatDate(new Date(cDay.workTime.end)) || '';
-    }
 
     return (
       <Container className={'col-md-8 d-flex flex-column my-5'}>
@@ -300,7 +307,7 @@ class ShopAdd extends Parent {
               as={'select'}
               name={'dayOfWeek'}
               value={choosenDay}
-              onChange={this.onChangeDayWeek.bind(this)}>
+              onChange={this.onChangeDayWeek}>
               <option value={0}>{'Sun'}</option>
               <option value={1}>{'Mon'}</option>
               <option value={2}>{'Tue'}</option>
@@ -316,9 +323,10 @@ class ShopAdd extends Parent {
               label={'Day off'}
               className={'mx-3'}
               onChange={this.onDayOffChangeHandler.bind(this)}
-              defaultChecked={cDay.isDayOff} />
+              defaultChecked={this.state.isVisible} />
           </Container>
-          {!this.state.shop.schedule[choosenDay].isDayOff && (
+
+          {!this.state.isVisible && (
             <Container
               className={'col-md-12'}>
               <Row className={'my-1'} id={'workTimeContainer'} ref={'workTimeContainer'}>
@@ -327,12 +335,14 @@ class ShopAdd extends Parent {
                   <FormControl
                     type={'time'}
                     name={'workStart'}
-                    defaultValue={workStart || '00:00'}
+                    ref={'workStart'}
+                    defaultValue={'00:00'}
                     onChange={this.onWorkTimeChangeHandler.bind(this)} />
                   <FormControl
                     type={'time'}
                     name={'workEnd'}
-                    defaultValue={workEnd || '00:00'}
+                    ref={'workEnd'}
+                    defaultValue={'00:00'}
                     onChange={this.onWorkTimeChangeHandler.bind(this)} />
                 </InputGroup>
               </Row>
@@ -348,7 +358,7 @@ class ShopAdd extends Parent {
                 <Button
                   variant={'secondary'}
                   className={'my-1'}
-                  onClick={() => this.onAddBreakTimeHandler()}>
+                  onClick={this.onAddBreakTimeHandler.bind(this)}>
                   {'+'}
                 </Button>
               </Row>
