@@ -18,4 +18,6 @@ export function onLogoutHandler(event) {
     cookies.remove('auth', {
         path: '/'
     });
+
+    window.location.href = window.location.origin + '/';
 }

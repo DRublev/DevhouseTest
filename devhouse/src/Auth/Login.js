@@ -116,7 +116,7 @@ class Login extends Parent {
                                 type={'password'}
                                 label={"Password"}
                                 value={regPassword}
-                                id="regPassword"
+                                id={'regPassword'}
                                 onChange={this.onChangeHandler.bind(this)}
                                 name={"regPassword"}
                                 className={"mt-0"}
@@ -125,9 +125,9 @@ class Login extends Parent {
                         <InputGroup className={'my-2'}>
                             <FormControl
                                 type={'password'}
-                                label={"Password"}
-                                value={password}
-                                id="regConfirmPassword"
+                                label={"Confirm password"}
+                                value={regConfirmPassword}
+                                id={'regConfirmPassword'}
                                 onChange={this.onChangeHandler.bind(this)}
                                 name={"password"}
                                 className={"mt-0"}
